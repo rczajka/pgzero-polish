@@ -3,17 +3,17 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Pygame Zero
-======================
+Witaj w Pygame Zero
+===================
 
-Pygame Zero is for creating games without boilerplate.
+Pygame Zero służy do tworzenia gier bez nudnego, powtarzalnego kodu.
 
-It is intended for use in education, so that teachers can teach basic
-programming without needing to explain the Pygame API or write an event loop.
+Przeznaczony jest do użytku w edukacji, tak by nauczyciele mogli uczyć
+podstaw programowania bez potrzeby wyjaśniania API Pygame czy pisania pętli zdarzeń.
 
 
-Courses
--------
+Kursy
+-----
 
 .. toctree::
     :maxdepth: 2
@@ -25,7 +25,7 @@ Courses
 .. learn-programming
 .. flappy-bird
 
-Reference
+Skorowidz
 ---------
 
 .. toctree::
@@ -34,8 +34,8 @@ Reference
     hooks
     builtins
 
-User Guide
-----------
+Skorowidz
+---------
 
 .. toctree::
     :maxdepth: 2
@@ -48,7 +48,7 @@ User Guide
     changelog
 
 
-Stickers by |Sticker Mule|
+Naklejki od |Sticker Mule|
 --------------------------
 
 .. |Sticker Mule| image:: _static/sticker-mule.svg
@@ -56,8 +56,7 @@ Stickers by |Sticker Mule|
     :height: 40
     :target: https://www.stickermule.com/supports/opensource
 
-`Sticker Mule`_ have graciously offered to provide Pygame Zero laptop stickers
-for learners.
+`Sticker Mule`_ zaofiarował się dostarczać naklejki Pygame Zero na laptopy dla uczących się.
 
 .. _`Sticker Mule`: https://www.stickermule.com/supports/opensource
 
@@ -67,8 +66,8 @@ for learners.
     stickers
 
 
-Improving Pygame Zero
----------------------
+Ulepszanie Pygame Zero
+----------------------
 
 .. toctree::
     :maxdepth: 2

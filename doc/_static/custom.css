@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Fredoka+One');
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap');
 
 div.sphinxsidebarwrapper p.logo {
     margin-bottom: 1.5em;
@@ -9,7 +9,8 @@ h1,
 h2,
 h3,
 .admonition-title {
-    font-family: 'Fredoka One', serif !important;
+    font-family: 'Kalam', serif !important;
+    font-weight: 700;
 }
 
 h1 {

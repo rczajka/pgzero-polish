@@ -1,33 +1,32 @@
-Introduction to Pygame Zero
+Wprowadzenie do Pygame Zero
 ===========================
 
 .. highlight:: python
     :linenothreshold: 5
 
-Creating a window
------------------
+Tworzenie okna
+--------------
 
-First, create an empty file called ``intro.py``.
+Na początek utwórz pusty plik o nazwie ``intro.py``.
 
-Verify that this runs and creates a blank window by running ::
+Sprawdź, że to działa i że pojawia się wtedy puste okno, uruchamiając ::
 
     pgzrun intro.py
 
-Everything in Pygame Zero is optional; a blank file is a valid Pygame Zero
-script!
+Wszystko w Pygame Zero jest opcjonalne; pusty plik to działający skrypt Pygame Zero!
 
-You can quit the game by clicking on the window's close button or by pressing
-``Ctrl-Q`` (``⌘-Q`` on Mac). If the game stops responding for any reason, you
-may need to terminate it by pressing ``Ctrl-C`` in your Terminal window.
+Możesz opuścić grę, klikając przycisk zamykania okna, albo naciskając
+``Ctrl-Q`` (``⌘-Q`` na Maku). Jeśli gra z jakiekolwiek powodu przestanie reagować
+możesz zakończyć ją, naciskając ``Ctrl-C`` w oknie Terminala.
 
 
-Drawing a background
---------------------
+Malowanie tła
+-------------
 
-Next, let's add a :func:`draw` function and set window dimensions. Pygame Zero
-will call this function whenever it needs to paint the screen.
+Następnie, dodajmy funkcję :func:`draw` (*„rysuj”*) i ustawmy wymiary okna. Pygame Zero
+będzie wywoływać tę funkcję zawsze, gdy będzie potrzebować narysować zawartość ekranu.
 
-In ``intro.py``, add the following::
+W pliku ``intro.py`` dodaj następującą treść::
 
     WIDTH = 300
     HEIGHT = 300
@@ -35,49 +34,50 @@ In ``intro.py``, add the following::
     def draw():
         screen.fill((128, 0, 0))
 
-Re-run ``pgzrun intro.py`` and the screen should now be a reddish square!
+Uruchom ``pgzrun intro.py`` jeszcze raz — na ekranie powinien być czerwonawy kwadrat!
 
-What is this code doing?
+Co robi ten kod?
 
-``WIDTH`` and ``HEIGHT`` control the width and height of your window. The code
-sets the window size to be 300 pixels in each dimension.
+``WIDTH`` i ``HEIGHT`` kontrolują szerokość i wysokość Twojego okna. Kod
+ustawia wielkość okna na 300 pikseli w obu wymiarach.
 
-``screen`` is a built-in that represents the window display. It has a
-:ref:`range of methods for drawing sprites and shapes <screen>`. The
-``screen.fill()`` method call is filling the screen with a solid colour,
-specified as a ``(red, green, blue)`` colour tuple. ``(128, 0, 0)`` will be a
-medium-dark red. Try changing these values with numbers between 0 and 255
-and see what colors you can create. You can also use a string to name a
-:doc:`built-in colour name <colors_ref>`.
+``screen`` to wbudowana zmienna oznaczająca zawartość okna. Posiada ona
+:ref:`zestaw metod do rysowania duszków i kształtów <screen>`. Metoda
+``screen.fill()`` wypełnia ekran jednolitym kolorem, określonym
+jako zestaw kolorów ``(czerwony, zielony, niebieski)``. ``(128, 0, 0)`` to będzie
+ciemno-czerwony. Spróbuj pozmieniać te wartości, używając liczb od 0 do 255,
+i zobacz jakie możesz tworzyć kolory. Możesz też użyć jednej z
+:doc:`wbudowanych nazw kolorów <colors_ref>`.
 
-Let's set up a sprite that we can animate.
+Teraz zrobimy sobie duszka, który będziemy mogli poruszać.
 
 
-Draw a sprite
--------------
+Rysowanie duszka
+----------------
 
-Before we can draw anything, we'll need to save an alien sprite to use. You can
-right click on this one and save it ("Save Image As..." or similar).
+Zanim cokolwiek narysujemy, potrzebujemy obrazka kosmity, którego będziemy używać.
+Możesz kliknąć ten poniżej i zapisać („Zapisz obraz jako…” lub coś podobnego).
 
 .. image:: _static/alien.png
 
-(This sprite has a transparency (or "alpha") channel, which is great for games!
-But it's designed for a dark background, so you may not be able to see the
-alien's space helmet until it is shown in the game).
+(Ten obrazek ma przezroczyste elementy (tzw. „kanał alfa”), co jest świetne w grach!
+
+Ale najlepiej wygląda na ciemnym tle, więc hełm kosmiczny tego kosmity może być
+widoczny dopiero, gdy umieścisz go w grze).
 
 .. tip::
 
-    You can find lots of free sprites, including this one, on `kenney.nl
-    <https://kenney.nl/assets?q=2d>`_. This one comes from the
+    Mnóstwo duszków do swobodnego użytku, w tym i ten, znajdziesz na `kenney.nl
+    <https://kenney.nl/assets?q=2d>`_. Ten pochodzi z zestawu
     `Platformer Art Deluxe pack
     <https://kenney.nl/assets/platformer-art-deluxe>`_.
 
-You need to save the file in the right place so that Pygame Zero can find it.
-Create a directory called ``images`` and save the image into it as
-``alien.png``. Both of those must be lower case. Pygame Zero will complain
-otherwise, to alert you to a potential cross-platform compatibility pitfall.
+Trzeba zapisać plik z obrazkiem we właściwym miejscu, tak by Pygame Zero
+mógł go znaleźć. Utwórz katalog o nazwie ``images`` i w nim zapisz obrazek jako
+``alien.png``. Wszystko to musi być małymi literami. Inaczej Pygame Zero będzie
+narzekać, by ostrzec Cię przed możliwymi problemami ze zgodnością z innymi platformami.
 
-If you've done that, your project should look like this:
+Gdy już to zrobisz, Twój projekt powinien wyglądać tak:
 
 .. code-block:: none
 
@@ -86,13 +86,12 @@ If you've done that, your project should look like this:
     │   └── alien.png
     └── intro.py
 
-``images/`` is the standard directory that Pygame Zero will look in to find
-your images.
+``images/`` to standardowy katalog, w którym Pygame Zero będzie szukać Twoich obrazków.
 
-There's a built-in class called :class:`Actor` that you can use to represent a
-graphic to be drawn to the screen.
+Do przedstawienia grafiki, którą będziesz rysował na ekranie, możesz użyć
+wbudowanej klasy :class:`Actor`.
 
-Let's define one now. Change the ``intro.py`` file to read::
+Zdefiniujmy teraz takiego aktora. Zmieć zawartość pliku ``intro.py`` na taką::
 
     alien = Actor('alien')
     alien.pos = 100, 56
@@ -104,85 +103,83 @@ Let's define one now. Change the ``intro.py`` file to read::
         screen.clear()
         alien.draw()
 
-Your alien should now be appearing on screen! By passing the string ``'alien'``
-to the ``Actor`` class, it automatically loads the sprite, and has attributes
-like positioning and dimensions. This allows us to set the ``HEIGHT`` of
-the window based on the height of the alien.
+Twój kosmita powinien teraz pojawić się na ekranie! Przekazanie napisu ``'alien'``
+do klasy ``Actor`` powoduje automatyczne załadowanie obrazka, wraz z atrybutami
+takimi jak pozycja i rozmiar. Dzięki temu możemy ustawić ``HEIGHT`` (wysokość okna)
+zależnie od wysokości kosmity.
 
-The ``alien.draw()`` method draws the sprite to the screen at its current
-position.
+Metoda ``alien.draw()`` rysuje duszka na ekranie w jego aktualnym położeniu.
 
 
-Moving the alien
-----------------
+Poruszanie kosmitą
+------------------
 
-Let's set the alien off-screen; change the ``alien.pos`` line to read::
+Ustawmy kosmitę poza ekranem; zamień linię z ``alien.pos`` na taką::
 
     alien.topright = 0, 10
 
-Note how you can assign to ``topright`` to move the alien actor by its
-top-right corner. If the right-hand edge of the alien is at ``0``, the
-alien is just offscreen to the left.  Now let's make it move. Add the following
-code to the bottom of the file::
+Zwróć uwagę, że możesz przypisać wartości do atrybutu ``topright`` (*„góra-prawo”*),
+by poruszać kosmicznym aktorem za jego prawy góry róg. Jeśli prawa krawędź kosmity
+jest w pozycji ``0``, to znaczy że kosmita znajduje się tuż za lewą krawędzią ekranu.
+A teraz niech się porusza. Dodaj poniższy kod na dole pliku::
 
     def update():
         alien.left += 2
         if alien.left > WIDTH:
             alien.right = 0
 
-Pygame Zero will call your :func:`update` function once every frame. Moving the
-alien a small number of pixels every frame will cause it to slide across the
-screen. Once it slides off the right-hand side of the screen, we reset it back
-to the left.
+Pygame Zero będzie wywoływał Twoją funkcję :func:`update` (*„aktualizuj”*)
+przed każdą klatką gry. Poruszanie kosmity o kilka pikseli przy każdej klatce
+sprawi, że będzie się on przesuwał po ekranie. Kiedy wysunie się za prawą krawędź
+ekranu, ustawiamy go z powrotem po lewej stronie.
 
-Your functions ``draw()`` and ``update()`` work in similar ways but are
-designed for two different purposes.  The ``draw()`` function draws the current
-position of the alien while the ``update()`` function is used to show the alien
-moving on the screen.
+Twoje funkcje ``draw()`` i ``update()`` działają podobnie, ale służą do dwóch różnych
+celów. Funkcja ``draw()`` (*„rysuj”*) rysuje aktualną pozycję kosmity, podczas gdy
+funkcja ``update()`` (*„aktualizuj”*) sprawia że kosmita przesuwa się po ekranie.
 
 
-Handling clicks
----------------
+Obsługa klików
+--------------
 
-Let's make the game do something when you click on the alien. To do this we
-need to define a function called :func:`on_mouse_down`. Add this to the source
-code::
+Sprawmy, żeby gra robiła coś, gdy klikniemy na kosmitę. W tym celu
+potrzebujemy zdefiniować funkcję o nazwie :func:`on_mouse_down` (*„gdy mysz naciśnięta”*).
+Dodaj to do kodu źródłowego::
 
     def on_mouse_down(pos):
         if alien.collidepoint(pos):
-            print("Eek!")
+            print("Aj!")
         else:
-            print("You missed me!")
+            print("Pudło!")
 
-You should run the game and try clicking on and off the alien.
+Uruchom grę i spróbuj klikać w kosmitę i obok niego.
 
-Pygame Zero is smart about how it calls your functions. If you don't define
-your function to take a ``pos`` parameter, Pygame Zero will call it without
-a position. There's also a ``button`` parameter for ``on_mouse_down``. So we
-could have written::
+Pygame Zero wywołuje Twoje funkcje w sprytny sposób. Jeśli nie określisz,
+że Twoja funkcja przyjmuje parametr ``pos``, Pygame Zero będzie ją wywoływać
+bez pozycji. Istnieje też parametr ``button`` (*„przycisk”*) funkcji ``on_mouse_down``.
+Mogliśmy więc napisać::
 
     def on_mouse_down():
-        print("You clicked!")
+        print("Klik!")
 
-or::
+albo::
 
     def on_mouse_down(pos, button):
         if button == mouse.LEFT and alien.collidepoint(pos):
-            print("Eek!")
+            print("Aj!")
 
 
 
-Sounds and images
------------------
+Dźwięki i obrazy
+----------------
 
-Now let's make the alien appear hurt. Save these files:
+Teraz sprawmy, że kosmita będzie wyglądał na urażonego. Zapisz te pliki:
 
-* `alien_hurt.png <_static/alien_hurt.png>`_ - save this as ``alien_hurt.png``
-  in the ``images`` directory.
-* `eep.wav <_static/eep.wav>`_ - create a directory called ``sounds`` and save
-  this as ``eep.wav`` in that directory.
+* `alien_hurt.png <_static/alien_hurt.png>`_ - zapisz to jako ``alien_hurt.png``
+  w katalogu ``images``.
+* `eep.wav <_static/eep.wav>`_ - utwórz katalog o nazwie ``sounds``
+  i w nim zapisz to jako ``eep.wav``.
 
-Your project should now look like this:
+Teraz Twój projekt powinien wyglądać tak:
 
 .. code-block:: none
 
@@ -194,29 +191,29 @@ Your project should now look like this:
     │   └── eep.wav
     └── intro.py
 
-``sounds/`` is the standard directory that Pygame Zero will look in to find
-your sound files.
+``sounds/`` (*„dźwięki”*) to standardowy katalog, w którym Pygame Zero będzie szukać
+Twoich plików dźwiękowych.
 
-Now let's change the ``on_mouse_down`` function to use these new resources::
+Teraz zmieńmy funkcję ``on_mouse_down`` by wykorzystać te nowe pliki::
 
     def on_mouse_down(pos):
         if alien.collidepoint(pos):
             alien.image = 'alien_hurt'
             sounds.eep.play()
 
-Now when you click on the alien, you should hear a sound, and the sprite will
-change to an unhappy alien.
+Teraz, gdy klikniesz kosmitę, powinien wydawać dźwięk, a jego obrazek zmieni się
+w niezadowolnego kosmitę.
 
-There's a bug in this game though; the alien doesn't ever change back to a
-happy alien (but the sound will play on each click). Let's fix this next.
+W tej grze jest jednak problem; kosmita nigdy nie zmienia się z powrotem
+w szczęśliwego kosmitę (ale dźwięk słychać przy każdym kliknięciu). Naprawmy to.
 
 
-Clock
+Zegar
 -----
 
-If you're familiar with Python outside of games programming, you might know the
-``time.sleep()`` method that inserts a delay. You might be tempted to write
-code like this::
+Jeśli znasz się już trochę z Pythonem poza programowaniem gier, być może
+znasz funkcję ``time.sleep()``, która ustawia opóźnienie. Może Cię kusić,
+by napisać tego rodzaju kod::
 
     def on_mouse_down(pos):
         if alien.collidepoint(pos):
@@ -225,17 +222,20 @@ code like this::
             time.sleep(1)
             alien.image = 'alien'
 
-Unfortunately, this is not at all suitable for use in a game. ``time.sleep()``
-blocks all activity; we want the game to go on running and animating. In fact
-we need to return from ``on_mouse_down``, and let the game work out when to
-reset the alien as part of its normal processing, all the while running your
-``draw()`` and ``update()`` methods.
+Niestety, to się w ogóle nie nadaje do użycia w grze. ``time.sleep()``
+blokuje całą aktywność — a my chcemy, żeby gra nadal działała i ruszała się.
+Musimy pozwolić, by funkcja ``on_mouse_down`` zakończyła się, i sprawić, by gra
+wiedziała, kiedy przestawić kosmitę z powrotem, podczas swojego normalnego
+działania, gdy cały czas w międzyczasie będzie uruchamiać Twoje funkcje
+``draw()`` i ``update()``.
 
-This is not difficult with Pygame Zero, because it has a built-in
-:class:`Clock` that can schedule functions to be called later.
+Nie jest to trudne z Pygame Zero, ponieważ ma wbudowany obiekt
+:class:`Clock` (*„zegar”*), który pozwala ustawiać funkcje do wywołania
+na później.
 
-First, let's "refactor" (ie. re-organise the code). We can create functions to
-set the alien as hurt and also to change it back to normal::
+Najpierw zróbmy „refaktoryzację” (tzn. przeorganizujmy kod). Możemy utworzyć
+funkcje, które ustawiają kosmitę jako urażonego i zmieniają go z powrotem
+do normalnego stanu::
 
     def on_mouse_down(pos):
         if alien.collidepoint(pos):
@@ -250,36 +250,38 @@ set the alien as hurt and also to change it back to normal::
     def set_alien_normal():
         alien.image = 'alien'
 
-This is not going to do anything different yet. ``set_alien_normal()`` won't be
-called. But let's change ``set_alien_hurt()`` to use the clock, so that the
-``set_alien_normal()`` will be called a little while after. ::
+To jeszcze nie robi nic inaczej niż dotąd. Funkcja ``set_alien_normal()`` nigdzie nie jest
+wywoływana. Zmieńmy ``set_alien_hurt()`` używając zegara, tak by funkcja
+``set_alien_normal()`` została wywołana chwilę później. ::
 
     def set_alien_hurt():
         alien.image = 'alien_hurt'
         sounds.eep.play()
         clock.schedule_unique(set_alien_normal, 0.5)
 
-``clock.schedule_unique()`` will cause ``set_alien_normal()`` to be called
-after ``0.5`` second. ``schedule_unique()`` also prevents the same function
-being scheduled more than once, such as if you click very rapidly.
+``clock.schedule_unique()`` sprawi, że ``set_alien_normal()`` będzie wywołane
+po upływie pół sekundy. ``schedule_unique()`` (*„zaplanuj bez powtórzeń”*) zapewnia
+przy tym, że ta sama funkcja może być w tym samym czasie zaplanowana do wykonania
+tylko raz — nawet gdy będziesz klikać bardzo szybko.
 
-Try it, and you'll see the alien revert to normal after 0.5 second. Try clicking
-rapidly and verify that the alien doesn't revert until 0.5 second after the last
-click.
+Spróbuj — zobaczysz jak kosmita wraca do stanu normalnego po upływie pół sekundy.
+Spróbuj klikać bardzo szybko i zweryfikuj, że kosmita wraca po normalnej postaci
+dopiero pół sekundy po ostatnim kliknięciu.
 
-``clock.schedule_unique()`` accepts both integers and float numbers for the time interval. In the tutorial we are using
-a float number to show this but feel free to use both to see the difference and effects the different values have.
+``clock.schedule_unique()`` akceptuje zarówno liczby całkowite, jak i ułamkowe,
+jako określenie długości czasu. W tym wprowadzeniu pokazujemy przykład użycia
+z liczbą ułamkową, ale śmiało popróbuj różnych liczb, by zobaczyć różne efekty
+wywoływane przez różne wartości.
 
 
-Summary
--------
+Podsumowanie
+------------
 
-We've seen how to load and draw sprites, play sounds, handle input events, and
-use the built-in clock.
+Zobaczyliśmy jak ładować i rysować duszki, grać dźwięki, obsługiwać
+zdarzenia wejścia, i używać wbudowanego zegara.
 
-You might like to expand the game to keep score, or make the alien move more
-erratically.
+Być może chcesz rozbudować tę grę, dodając do niej jakąś punktację, albo
+tak by kosmita poruszał się w bardziej skomplikowany sposób.
 
-There are lots more features built in to make Pygame Zero easy to use. Check
-out the :doc:`built in objects <builtins>` to learn how to use the rest of the
-API.
+Istnieje znacznie więcej wbudowanych funkcji, ułatwiających używanie Pygame Zero.
+Przejrzyj :doc:`wbudowane obiekty <builtins>` by nauczyć się używać reszty API.
