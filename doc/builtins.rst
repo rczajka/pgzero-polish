@@ -1,382 +1,391 @@
-Built-in Objects
-================
+Wbudowane obiekty
+=================
 
-Pygame Zero provides useful built-in objects to help you make games easily.
+Pygame Zero dostarcza użytecznych obiektów wbudowanych,
+które ułatwią Ci tworzenie gier.
 
 
 .. _screen:
 
-Screen
-------
+Ekran
+-----
 
 .. toctree::
     :hidden:
 
     ptext
 
-The ``screen`` object represents your game screen.
+Obiekt ``screen`` (*„ekran”*) reprezentuje ekran Twojej gry.
 
-It is a thin wrapper around a Pygame surface that allows you to easily
-draw images to the screen ("blit" them).
+To cienka warstwa wokół obiektu *powierzchni* z biblioteki Pygame,
+która pozwala łatwo rysować obrazki na ekranie („blitować” je).
 
 .. class:: Screen
 
     .. attribute:: surface
 
-        The raw `Pygame surface`_ that represents the screen buffer. You can
-        use this for advanced graphics operations.
+        Surowy `obiekt powierzchni z Pygame`_ reprezentujący bufor ekranu.
+        Możesz używać go do zaawansowanych operacji graficznych.
 
-        .. _`Pygame surface`: https://www.pygame.org/docs/ref/surface.html
+        .. _`obiekt powierzchni z Pygame`: https://www.pygame.org/docs/ref/surface.html
 
     .. method:: bounds()
 
         .. versionadded:: 1.3
 
-        Return a ZRect representing the bounds of the screen.
+        Zwraca obiekt ZRect reprezentujący granice ekranu.
 
     .. method:: clear()
 
-        Reset the screen to black.
+        Czyści ekran do czerni.
 
     .. method:: fill((red, green, blue), [gcolor=(r, g, b)])
 
-        Fill the screen with a solid color.
+        Wypełnia ekran jednolitym kolorem,
+        określonym jako zestaw (czerwony, zielony, niebieski).
 
         .. versionadded:: 1.3
 
-            If ``gcolor`` is given then fill with a gradient, from ``color`` at
-            the top of the screen to ``gcolor`` at the bottom.
+            Jeśli podano argument ``gcolor``, ekran zostaje wypełniony gradientem
+            od koloru z pierwszego parametru na górze, do koloru ``gcolor`` na dole.
 
     .. method:: blit(image, (left, top))
 
-        Draw the image to the screen at the given position.
+        Rysuje obraz na ekranie w podanym miejscu.
 
-        ``blit()`` accepts either a Surface or a string as its ``image``
-        parameter. If ``image`` is a ``str`` then the named image will be
-        loaded from the ``images/`` directory.
+        ``blit()`` może przyjąć jako parametr ``image`` albo obiekt
+        typu ``Surface``, albo napis. Jeśli ``image`` jest napisem,
+        obraz o podanej nazwie zostanie załadowany z katalogu
+        ``images/``.
 
     .. method:: draw.line(start, end, (r, g, b), width=1)
 
-        Draw a line from start to end with a certain line width.
+        Rysuje linię od pozycji ``start`` do pozycji ``end``
+        o podanej szerokości (``width``).
 
     .. method:: draw.circle(pos, radius, (r, g, b), width=1)
 
-        Draw the outline of a circle with a certain line width.
+        Rysuje okrąg podaną grubością linii.
 
     .. method:: draw.filled_circle(pos, radius, (r, g, b))
 
-        Draw a filled circle.
+        Rysuje koło.
 
     .. method:: draw.rect(rect, (r, g, b), width=1)
 
-        Draw the outline of a rectangle with a certain line width.
+        Rysuje obrys prostokąta podaną grubością linii.
 
-        Takes a :ref:`Rect <rect>`.
+        Jako pierwszy parametr przyjmuje obiekt :ref:`Rect <rect>`.
 
     .. method:: draw.filled_rect(rect, (r, g, b))
 
-        Draw a filled rectangle.
+        Rysuje wypełniony prostokąt.
 
     .. method:: draw.text(text, [pos], **kwargs)
 
-        Draw text.
+        Wypisuje tekst.
 
-        There's an extremely rich API for positioning and formatting text; see
-        :doc:`ptext` for full details.
+        Istnieje bardzo bogate API służące do pozycjonowania i formatowania
+        tekstu; zobacz szczegóły w rozdziale :doc:`ptext`.
 
     .. method:: draw.textbox(text, rect, **kwargs)
 
-        Draw text, sized to fill the given :ref:`Rect`.
+        Wypisuje tekst o wielkości dostosowanej, by wypełnić dany prostokąt (:ref:`Rect`).
 
-        There's an extremely rich API for formatting text; see
-        :doc:`ptext` for full details.
+        Istnieje bardzo bogate API służące do formatowania
+        tekstu; zobacz szczegóły w rozdziale :doc:`ptext`.
 
 .. tip::
 
-    All of the colours can be specified as ``(r, g, b)`` tuples, or by
-    name, using one of :doc:`Pygame's colour names <colors_ref>`
+   Wszystkie kolory mogą być określane jako zestawy ``(r, g, b)``
+   (czerwony, zielony, niebieski), albo przez nazwę, używając
+   jednej z :doc:`nazw kolorów w Pygame<colors_ref>`.
 
 .. _rect:
 
-Rect
-----
-
-The `Pygame Rect`_ class is available as a built in. This can be used in a
-variety of ways, from detecting clicks within a region to drawing a box onto
-the screen:
-
-For example, you can draw a box with::
-
-    RED = 200, 0, 0
-    BOX = Rect((20, 20), (100, 100))
-
-    def draw():
-        screen.draw.rect(BOX, RED)
-
-
-.. _`Pygame Rect`: https://www.pygame.org/docs/ref/rect.html
-
-
-Resource Loading
+Rect (prostokąt)
 ----------------
 
-The ``images`` and ``sounds`` objects can be used to load images and sounds
-from files stored in the ``images`` and ``sounds`` subdirectories respectively.
-Pygame Zero will handle loading of these resources on demand and will cache
-them to avoid reloading them.
+Klasa `Rect z Pygame`_ jest dostępna jako wbudowana. Można jej używać na różne
+sposoby, od wykrywania klików w danym regionie, po rysowanie prostokątów na ekranie.
 
-You generally need to ensure that your images are named with lowercase letters,
-numbers and underscores only. They also have to start with a letter.
+Na przykład, możesz narysować prostokąt w taki sposób::
 
-File names like these will work well with the resource loader::
+    CZERWONY = 200, 0, 0
+    PROSTOKĄT = Rect((20, 20), (100, 100))
+
+    def draw():
+        screen.draw.rect(PROSTOKĄT, CZERWONY)
+
+
+.. _`Rect z Pygame`: https://www.pygame.org/docs/ref/rect.html
+
+
+Ładowanie zasobów
+-----------------
+
+Obiekty ``images`` i ``sounds`` służą do ładowania obrazów i dźwięków z plików
+zapisanych, odpowiednio, w katalogach ``images`` i ``sounds``.
+Pygame Zero obsłuży ładowanie tych zasobów na żądanie i zachowa je,
+unikając zbędnego wielokrotnego ładowania ich.
+
+Twoje obrazy muszą mieć nazwy złożone tylko z małych liter,
+cyfr i znaków podkreślenia. Muszą też zaczynać się od litery.
+
+Nazwy plików, które będą dobrze działy z mechanizmem ładowania zasobów::
 
     alien.png
     alien_hurt.png
-    alien_run_7.png
+    żółw_numer_7.png
 
-These will not work::
+A takie nie zadziałają::
 
     3.png
-    3degrees.png
-    my-cat.png
-    sam's dog.png
+    3stopnie.png
+    moj-kot.png
+    pies george'a.png
 
-The resource loader caches loaded images and sounds. To clear the cache (for
-instance, if you are running into memory issues), use the `unload()` and
-`unload_all()` functions.
+Mechanizm ładowania zasobów zachowuje załadowane obrazy i dźwięki
+w pamięci podręcznej (*cache*). Aby opróżnić tę pamięć (np. z powodu problemów
+z pamięcią), użyj funkcji `unload()` i `unload_all()`.
 
-Example::
+Przykład::
 
-    cow = Actor('cow')
-    loader.images.unload('cow')  # clears the cache of cow.png
-    loader.images.unload_all()  # clears all cached image files
+    krowa = Actor('krowa')
+    loader.images.unload('krowa')  # usuwa obraz krowa.png z pamięci podręcznej
+    loader.images.unload_all()     # usuwa wszystkie obrazy z pamięci podręcznej
 
 
-Images
+Obrazy
 ''''''
 
-Pygame Zero can load images in ``.png``, ``.gif``, and ``.jpg`` formats. PNG is
-recommended: it will allow high quality images with transparency.
+Pygame Zero potrafi ładować obrazy w formatach ``.png``, ``.gif``, i ``.jpg``.
+Zalecamy format PNG: obsługuje wysokiej jakości obrazy z przezroczystością.
 
-We need to ensure an images directory is set up. If your project contains the
-following files::
+Potrzebujemy się upewnić, że katalog ``images`` istnieje.
+Jeśli Twój projekt zawiera następujące pliki::
 
-    space_game.py
-    images/alien.png
+    kosmiczna_gra.py
+    images/kosmita.png
 
-Then ``space_game.py`` could draw the 'alien' sprite to the screen with this
-code::
+To ``kosmiczna_gra.py`` może narysować duszka 'alien' na ekranie za pomocą
+tego kodu::
 
     def draw():
         screen.clear()
-        screen.blit('alien', (10, 10))
+        screen.blit('kosmita', (10, 10))
 
-The name passed to ``blit()`` is the name of the image file within the images
-directory, without the file extension.
+Nazwa przekazana do funkcji ``blit()`` to nazwa pliku obrazu w katalogu ``images``,
+bez rozszerzenia pliku.
 
-Or using the :ref:`actor` API, ::
+Albo, używając API :ref:`aktora <actor>`::
 
-    alien = Actor('alien')
+    kosmita = Actor('kosmita')
 
     def draw():
-        alien.draw()
+        kosmita.draw()
 
-There are some restrictions on the file names in both cases: they may only
-contain lowercase latin letters, numbers and underscores. This is to prevent
-compatibility problems when your game is played on a different operating system
-that has different case sensitivity.
+W obu przypadkach są pewne ograniczenia narzucone nazwom plików: mogą zawierać tylko
+małe litery łacińskie, cyfry i znaki podreślenia. Służy to uniknięciu
+problemów z kompatybilnością, gdy Twoja gra będzie używana pod innym systemem
+operacyjnym, który inaczej traktuje wielkość liter w nazwach plików.
 
-Image Surfaces
-''''''''''''''
 
-You can also load images from the ``images`` directory using the ``images``
-object. This allows you to work with the image data itself, query its
-dimensions and so on::
+Powierzchnie obrazów
+''''''''''''''''''''
 
-    forest = []
+Możesz także ładować obrazy z katalogu ``images`` używając obiektu ``images``.
+Dzięki temu możesz pracować bezpośrednio z danymi obrazów, pobierać
+ich rozmiary itp.::
+
+    las = []
     for i in range(5):
-        forest.append(
-            Actor('tree', topleft=(images.tree.get_width() * i, 0))
+        las.append(
+            Actor('drzewo', topleft=(images.drzewo.get_width() * i, 0))
         )
 
-Each loaded image is a Pygame ``Surface``. You will typically use
-``screen.blit(...)`` to draw this to the screen. It also provides handy methods
-to query the size of the image in pixels:
+Każdy załadowany obraz jest obiektem ``Surface`` (*„powierzchnia”*) Pygame.
+Zazwyczaj będziesz używać metody ``screen.blit(...)`` do rysowania tych obrazów
+na ekranie. Obiekt ten dostarcza dostarcza również przydatnych metod pozwalających
+zbadać rozmiar obrazu w pikselach:
 
 .. class:: Surface
 
     .. method:: get_width()
 
-        Returns the width of the image in pixels.
+        Zwraca szerokość obrazu w pikselach.
 
     .. method:: get_height()
 
-        Returns the height of the image in pixels.
+        Zwraca wysokość obrazu w pikselach.
 
     .. method:: get_size()
 
-        Returns a tuple (width, height) indicating the size in pixels of the
-        surface.
+        Zwraca zestaw (krotkę) ``(wysokość, szerokość)`` oznaczającą
+        rozmiar powierzchni w pikselach.
 
     .. method:: get_rect()
 
-        Get a :class:`Rect` that is pre-populated with the bounds of the image
-        if the image was located at the origin.
+        Zwraca obiekt :class:`Rect` z oznaczonymi granicami obrazu przy założeniu
+        że obraz byłby zlokalizowany w punkcie (0, 0).
 
-        Effectively this is equivalent to::
+        Efektywnie, jest to równoważne z::
 
-            Rect((0, 0), image.get_size())
+            Rect((0, 0), obraz.get_size())
 
 
-Sounds
-''''''
+Dźwięki
+'''''''
 
-Pygame Zero can load sounds in ``.wav`` and ``.ogg`` formats. WAV is great for
-small sound effects, while OGG is a compressed format that is more suited to
-music. You can find free .ogg and .wav files online that can be used in your
-game.
+Pygame Zero może wczytywać dźwięki w formatach ``.wav`` i ``.ogg``.
+WAV jest świetny do małych efektów dźwiękowych, podczas gdy OGG to skompresowany
+format bardziej przystosowany do muzyki. W sieci możesz znaleźć
+pliki .ogg i .wav dostępne do swobodnego użycia, które możesz wykorzystać
+w swojej grze.
 
-We need to ensure a sounds directory is set up. If your project contains the
-following files::
+Potrzebujemy się upewnić, że katalog ``sounds`` istnieje.
+Jeśli Twój projekt zawiera następujące pliki::
 
-    drum_kit.py
-    sounds/drum.wav
+    perkusja.py
+    sounds/werbel.wav
 
-Then ``drum_kit.py`` could play the drum sound whenever the mouse is clicked
-with this code::
+To ``perkusja.py`` może zagrać dźwięk werbla przy każdym naciśnięciu
+przycisku myszy, używając tego kodu::
 
     def on_mouse_down():
-        sounds.drum.play()
+        sounds.werbel.play()
 
-Each loaded sound is a Pygame ``Sound``, and has various methods to play and
-stop the sound as well as query its length in seconds:
+Każdy załadowany dźwięk to obiekt ``Sound`` z Pygame, i ma różne metody
+pozwalające odtwarzać i zatrzymywać dźwięk, oraz badać jego długość w sekundach:
 
 .. class:: Sound
 
     .. method:: play()
         :noindex:
 
-        Play the sound.
+        Odtwarza dźwięk.
 
     .. method:: play(loops)
 
-        Play the sound, but loop it a number of times.
+        Otrwarza dźwięk, zapętlając go podaną liczbę razy.
 
-        :param loops: The number of times to loop. If you pass ``-1`` as the
-                      number of times to loop, the sound will loop forever (or
-                      until you call :meth:`.Sound.stop()`
+        :param loops: Liczba pętli zapętlonego dźwięku. Jeśli przekażesz ``-1``
+                      jako liczbę pętli, dźwięk będzie się odtwarzał bez końca
+                      (albo dopóki nie wywołasz metody :meth:`.Sound.stop()`).
 
     .. method:: stop()
 
-        Stop playing the sound.
+        Zatrzymuje odtwarzanie dźwięku.
 
     .. method:: get_length()
 
-        Get the duration of the sound in seconds.
+        Zwraca długość dźwięku w sekundach.
 
-You should avoid using the ``sounds`` object to play longer pieces of music.
-Because the sounds sytem will fully load the music into memory before playing
-it, this can use a lot of memory, as well as introducing a delay while the
-music is loaded.
+Staraj się unikać używania obiektu ``sounds`` do odtwarzania dłuższych fragmentów muzyki.
+Ponieważ system dźwięków ładuje całą muzykę do pamięci przed odtworzeniem jej,
+może to powodować nadmierne zużycie pamięci, i opóźnienie odtwarzania o czas ładowania
+muzyki.
 
 .. _music:
 
-Music
------
+Muzyka
+------
 
 .. versionadded:: 1.1
 
 .. warning::
 
-    The music API is experimental and may be subject to cross-platform
-    portability issues.
+    API muzyki jest eksperymentalne i może być źródłem problemów
+    z kompatybilnością między różnymi platformami.
 
-    In particular:
+    W szczególności:
 
-    * MP3 may not be available on some Linux distributions.
-    * Some OGG Vorbis files seem to hang Pygame with 100% CPU.
+    * Obsługa formatu MP3 może nie być dostępna w niektórych dystrybucjach Linuksa.
+    * Wygląda na to, że niektóre pliki OGG Vorbis zawieszają Pygame
+      ze 100-procentowym zużyciem procesura.
 
-    In the case of the latter issue, the problem may be fixed by re-encoding
-    (possibly with a different encoder).
+    W przypadku tego ostatniego problemu, można go rozwiązać przez
+    przekodowanie pliku (być może innym enkoderem).
 
 
-A built-in object called ``music`` provides access to play music from within
-a ``music/`` directory (alongside your ``images/`` and ``sounds/`` directories,
-if you have them). The music system will load the track a little bit at a time
-while the music plays, avoiding the problems with using ``sounds`` to play
-longer tracks.
+Wbudowany obiekt o nazwie ``music`` pozwala odtwarzać muzykę z katalogu
+``music/`` (obok Twoich katalogów ``images/`` i ``sounds/``,
+jeśli je masz). System muzyki będzie ładował ścieżkę muzyczną po trochu w trakcie
+jej odtwarzania, unikając problemów z używaniem obiektu ``sounds`` do
+odtwarzania dłuższych ścieżek.
 
-Another difference to the sounds system is that only one music track can be
-playing at a time. If you play a different track, the previously playing track
-will be stopped.
+Inną różnicą w stosunku do systemu dźwięków jest to, że tylko jedna ścieżka muzyki
+może być odtwarzana jednocześnie. Jeśli zaczniesz odtwarzać inną ścieżkę,
+ścieżka odtwarzana poprzednio zostanie zatrzymana.
 
 
 .. function:: music.play(name)
 
-    Play a music track from the given file. The track will loop indefinitely.
+    Odtwarza ścieżkę muzyczną ze wskazanego pliku.
+    Ścieżka będzie zapętlona bez końca.
 
-    This replaces the currently playing track and cancels any tracks previously
-    queued with ``queue()``.
+    Zastępuje to aktualnie odtwarzaną ścieżkę i anuluje wszelkie ścieżki
+    umieszczone w kolejce przez wywołanie ``queue()``.
 
-    You do not need to include the extension in the track name; for example, to
-    play the file ``handel.mp3`` on a loop::
+    Nie musisz dodawać rozszerzenia nazwy pliku ścieżki; na przykład, by
+    odtworzyć plik ``mozart.mp3`` w pętli::
 
-        music.play('handel')
+        music.play('mozart')
 
 .. function:: music.play_once(name)
 
-    Similar to ``play()``, but the music will stop after playing through once.
+    Podobnie do ``play()``, ale muzyka zostanie zatrzymana po pojedynczym odtworzeniu.
 
 .. function:: music.queue(name)
 
-    Similar to ``play_once()``, but instead of stopping the current music, the
-    track will be queued to play after the current track finishes (or after
-    any other previously queued tracks).
+    Podobnie do ``play_once()``, ale zamiast zatrzymywać aktualnie odtwarzaną
+    muykę, ścieżka zostanie dodana do kolejki do odtworzenia, gdy aktualnie odtwarzana
+    ścieżka skończy się (i po wszystkich innych ścieżkach już wcześniej umieszczonych
+    w kolejce).
 
 .. function:: music.stop()
 
-    Stop the music.
+    Zatrzumuje muzykę.
 
 .. function:: music.pause()
 
-    Pause the music temporarily. It can be resumed by calling
-    ``unpause()``.
+    Przerywa muzykę tymczasowo. Można ją wznowić, wywołując ``unpause()``.
 
 .. function:: music.unpause()
 
-    Unpause the music.
+    Wznawia odtwarzanie muzyki.
 
 .. function:: music.is_playing()
 
-    Returns True if the music is playing (and is not paused), False otherwise.
+    Zwraca ``True`` jeśli muzyka jest odtwarzana (i nie jest przerwana),
+    ``False`` w przeciwnym przypadku.
 
 .. function:: music.fadeout(duration)
 
-    Fade out and eventually stop the current music playback.
+    Wycisza, po czym zatrzymuje aktualnie odtwarzaną muzykę.
 
-    :param duration: The duration in seconds over which the sound will be faded
-                    out. For example, to fade out over half a second, call
-                    ``music.fadeout(0.5)``.
+    :param duration: Czas trwania wyciszenia muzyki. Na przykład, by wyciszyć
+                     muzykę w ciągu pół sekundy, wywołaj ``music.fadeout(0.5)``.
 
 .. function:: music.set_volume(volume)
 
-    Set the volume of the music system.
+    Ustawia głośność systemu muzyki.
 
-    This takes a number between 0 (meaning silent) and 1 (meaning full volume).
+    Przyjmuje liczbę pomiędzy 0 (całkowita cisza) a 1 (pełna głośność).
 
 .. function:: music.get_volume()
 
-    Get the current volume of the music system.
+    Zwraca aktualną głośność systemu muzyki.
 
 
-If you have started a music track playing using :func:`music.play_once()`, you
-can use the :func:`on_music_end() hook <on_music_end>` to do something when the
-music ends - for example, to pick another track at random.
+Po zaczęciu odtwarzania muzyki przy użyciu :func:`music.play_once()`, możesz
+użyć :func:`haka on_music_end() <on_music_end>`, by zrobić coś kiedy muzyka
+się skończy — na przykład, wylosować kolejną ścieżkę.
 
 
 .. _clock:
 
-Clock
+Zegar
 -----
 
 Often when writing a game, you will want to schedule some game event to occur
