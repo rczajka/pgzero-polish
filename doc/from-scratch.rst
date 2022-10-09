@@ -60,12 +60,12 @@ W Scratchu osiągamy to tworząc dwa osobne skrypty dla górnej i dolnej rury.
 
 Podsumowując, co tu się dzieje:
 
-* Warunek ``x position < -240`` jest spełniony, gdy rura chowa się za lewą
+* Warunek ``współrzędna x < -240`` jest spełniony, gdy rura chowa się za lewą
   krawędzią ekranu — to sygnał do zresetowania położenia rur.
 * Zmienna ``pipe_height`` służy do koordynacji obu rur. Ponieważ przerwa między
   rurami powinna pozostać stała, nie możemy wybrać losowo położenia *obu* rur.
   Dlatego jeden ze skryptów ma ten mechanizm, a drugi nie.
-* Instrukcja ``set y position to pipe height +/- 230`` ustawia jedną rurę nad
+* Instrukcja ``ustaw y na pipe height +/- 230`` ustawia jedną rurę nad
   ``pipe_height``, a drugą rurę pod ``pipe_height``.
 
 Ten kod staje się znacznie prostszy w Pygame Zero. Możemy napisać jedną funkcję,
@@ -232,31 +232,31 @@ Wiele pojęć dostępnych w Scratchu da się przełożyć bezpośrednio do Pygam
 
 Tutaj jest kilka porównań:
 
-+----------------------------+------------------------------------------------+
-| W Scratchu                 | W Pygame Zero                                  |
-+============================+================================================+
-| ``change y by 1`` (w górę) | ``bird.y -= 1``                                |
-+----------------------------+------------------------------------------------+
-| ``change y by -1`` (w dół) | ``bird.y += 1``                                |
-+----------------------------+------------------------------------------------+
-| ``set costume to <name>``  | ``bird.image = 'name'``                        |
-+----------------------------+------------------------------------------------+
-| ``if dead = 0``            | ``if not bird.dead:``                          |
-+----------------------------+------------------------------------------------+
-| ``set dead to 0``          | ``bird.dead = False``                          |
-+----------------------------+------------------------------------------------+
-| ``if touching Top?``       | ``if bird.colliderect(pipe_top)``              |
-+----------------------------+------------------------------------------------+
-| ``When Flag clicked``...   | Umieść kod w funkcji ``update()``.             |
-| ``forever``                |                                                |
-+----------------------------+------------------------------------------------+
-| ``When [any] key pressed`` | ``def on_key_down():``                         |
-+----------------------------+------------------------------------------------+
-| ``pick random a to b``     | ``import random`` by załadować moduł           |
-|                            | ``random``, następnie ``random.randint(a, b)`` |
-+----------------------------+------------------------------------------------+
-| (0, 0) jest w środku sceny | (0, 0) jest w lewym górnym roku okna           |
-+----------------------------+------------------------------------------------+
++----------------------------------+------------------------------------------------+
+| W Scratchu                       | W Pygame Zero                                  |
++==================================+================================================+
+| ``zmień y o 1`` (w górę)         | ``bird.y -= 1``                                |
++----------------------------------+------------------------------------------------+
+| ``zmień y o -1`` (w dół)         | ``bird.y += 1``                                |
++----------------------------------+------------------------------------------------+
+| ``zmień na kostium <name>``      | ``bird.image = 'name'``                        |
++----------------------------------+------------------------------------------------+
+| ``jeżeli dead = 0``              | ``if not bird.dead:``                          |
++----------------------------------+------------------------------------------------+
+| ``ustaw dead na 0``              | ``bird.dead = False``                          |
++----------------------------------+------------------------------------------------+
+| ``jeżeli dotyka Top?``           | ``if bird.colliderect(pipe_top)``              |
++----------------------------------+------------------------------------------------+
+| ``kiedy kliknięto Flagę``…       | Umieść kod w funkcji ``update()``.             |
+| ``zawsze``                       |                                                |
++----------------------------------+------------------------------------------------+
+| ``kiedy klawisz […] naciśnięty`` | ``def on_key_down():``                         |
++----------------------------------+------------------------------------------------+
+| ``losuj liczbę pomiędzy A a B``  | ``import random`` by załadować moduł           |
+|                                  | ``random``, następnie ``random.randint(A, B)`` |
++----------------------------------+------------------------------------------------+
+| (0, 0) jest w środku sceny       | (0, 0) jest w lewym górnym roku okna           |
++----------------------------------+------------------------------------------------+
 
 Kod w Pythonie bywa czasem prostszy, bo może być zorganizowany
 w sposób pomagający go zrozumieć podczas czytaniu.
