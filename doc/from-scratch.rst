@@ -265,3 +265,11 @@ Dzięki mocy aktorów Pygame Zero także używanie współrzędnych jest łatwie
 Użyliśmy ustawienia ``anchor``, by ustawiać pozycję rur, i mogliśmy
 zobaczyć czy rura jest poza ekranem, sprawdzając czy ``pipe_top.right < 0``,
 a nie ``if x position < -240``.
+
+.. note::
+
+   W polskiej wersji Scratcha komendy (nazwy bloków) są wyświetlane po polsku.
+   W tekstowych językach programowania, takich jak Python, wszystkie standardowe
+   nazwy są zazwyczaj po angielsku. Podobnie w Pygame Zero, wszystkie nazwy
+   :doc:`wbudowanych obiektów <builtins>` i :doc:`funkcji haków <hooks>` są
+   zawsze w języku angielskim.
