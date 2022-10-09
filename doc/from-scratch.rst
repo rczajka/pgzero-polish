@@ -1,44 +1,42 @@
-Migrating from Scratch
-======================
+Przejście ze Scratcha
+=====================
 
-This tutorial will compare an implementation of Flappy Bird written in Scratch
-with one written in Pygame Zero. The Scratch and Pygame Zero programs are
-similar to a remarkable extent.
+Ten przewodnik porównuje implementację gry Flappy Bird napisaną w Scratchu
+i napisaną w Pygame Zero. Programy w Scratchu i Pygame Zero są podobne
+w zadziwiającym stopniu.
 
-The `Pygame Zero version`__ can be found in Pygame Zero repository.
+`Wersję w Pygame Zero`__ można znaleźć w repozytorium Pygame Zero.
 
 .. __: https://github.com/lordmauve/pgzero/blob/master/examples/flappybird/flappybird.py
 
-You can also download the `Scratch 1.4 version`__ and `Scratch 3 version`__ from the repository.
+Z repozytorium możesz też pobrać `wersję w Scratchu 1.4`__ i `wersję w Scratchu 3`__.
 
 .. __: https://github.com/lordmauve/pgzero/raw/master/examples/flappybird/Flappy%20Bird.sb
 .. __: https://github.com/lordmauve/pgzero/raw/master/examples/flappybird/Flappy%20Bird.sb3
 
-The Pygame Zero version includes scoring logic, which is omitted in the code
-examples on this page to make it a closer comparison.
+Wersja w Pygame Zero zawiera mechanizm punktacji, którą pomijamy w przykładach
+kodu na tej stronie, by porównanie było bliższe.
 
-The Python code shown below is re-arranged for clarity within the examples.
+Pokazany niżej kod w Pythonie został przeorganizowany dla większej jasności przykładów.
 
 
-The stage
----------
+Scena
+-----
 
-Here's how the stage is laid out in our Scratch program:
+Tak wygląda scena w naszym programie w Scratchu:
 
 .. image:: _static/scratch/flappybird-stage.png
 
-There are just three objects, aside from the background: the bird, and the top
-and bottom pipes.
+Są tu tylko trzy obiekty, oprócz tła: ptak i dwie rury, górna i dolna.
 
-This corresponds to the Pygame Zero code setting these objects up as
-``Actors``::
+W kodzie w Pygame Zero odpowiadają im definicje obiektów ``Aktorów``::
 
    bird = Actor('bird1', (75, 200))
    pipe_top = Actor('top', anchor=('left', 'bottom'))
    pipe_bottom = Actor('bottom', anchor=('left', 'top'))
 
-In Pygame Zero we also have to ensure we draw these objects. In principle this
-gives a little more flexibility about how to draw the scene::
+W Pygame Zero musimy też zapewnić rysowanie tych obiektów. Co do zasaday daje to nieco więcej
+elastyczności przy rysowaniu sceny::
 
    def draw():
        screen.blit('background', (0, 0))
@@ -47,33 +45,32 @@ gives a little more flexibility about how to draw the scene::
        bird.draw()
 
 
-Pipe movement
--------------
+Ruch rur
+--------
 
-The pipes move at a constant rate irrespective of the bird. When they move off
-the left-hand side of the screen, they loop around to the right, and their
-vertical position moves at random.
+Rury przesuwają się w stałym tempie niezależnie od ptaka. Kiedy chowają się
+za lewą krawędzią ekranu, pojawiają się znowu z prawej, a ich pozycja w pionie
+zmienia się losowo.
 
-In Scratch this can be achieved by creating two different scripts for the top
-and bottom pipe.
+W Scratchu osiągamy to tworząc dwa osobne skrypty dla górnej i dolnej rury.
 
 .. image:: _static/scratch/flappybird-top-start.png
 
 .. image:: _static/scratch/flappybird-bottom-start.png
 
-To summarise what's happening here:
+Podsumowując, co tu się dzieje:
 
-* The condition ``x position < -240`` is true when a pipe is off the left-hand
-  side of the screen, and this is the trigger to reset the pipes.
-* The ``pipe_height`` variable is used to coordinate the two pipes. Because the
-  gap between them should remain the same, we can't pick *both* heights
-  randomly. Therefore one of the scripts has this logic and the other doesn't.
-* The ``set y position to pipe height +/- 230`` sets one pipe to be above
-  ``pipe_height`` and the other pipe below ``pipe_height``.
+* Warunek ``x position < -240`` jest spełniony, gdy rura chowa się za lewą
+  krawędzią ekranu — to sygnał do zresetowania położenia rur.
+* Zmienna ``pipe_height`` służy do koordynacji obu rur. Ponieważ przerwa między
+  rurami powinna pozostać stała, nie możemy wybrać losowo położenia *obu* rur.
+  Dlatego jeden ze skryptów ma ten mechanizm, a drugi nie.
+* Instrukcja ``set y position to pipe height +/- 230`` ustawia jedną rurę nad
+  ``pipe_height``, a drugą rurę pod ``pipe_height``.
 
-This code becomes much simpler in Pygame Zero. We could write a single function
-that updates both pipes. In fact I split it a different way to make it clear
-that the reset actions go together::
+Ten kod staje się znacznie prostszy w Pygame Zero. Możemy napisać jedną funkcję,
+która aktualizuje obie rury. Faktycznie dzielę ją w inny sposób, by było jasno
+widać, że akcje resetowania zachodzą razem::
 
    import random
 
@@ -93,38 +90,38 @@ that the reset actions go together::
        if pipe_top.right < 0:
            reset_pipes()
 
-A small difference here is that I can extract values that I want to re-use as
-"constants", spelled in UPPERCASE. This lets me change them in one place when I
-want to tune the game. For example, in the code above, I could widen or narrow
-the gap between the two pipes simply by changing ``GAP``.
+Drobna różnica jest taka, że wartości, których chcę użyć wiele razy, mogę zdefiniować
+jako „stałe”, zapisywane DUŻYMI LITERAMI. Pozwala mi to zmieniać je w jednym miejscu,
+gdy chcę inaczej wyregulować grę. Na przykład, w kodzie powyżej, mogę rozszerzyć albo
+zwęzić przerwę między rurami, po prostu zmieniając wartość ``GAP``.
 
-The biggest thing that differs is that there is no ``forever`` loop in Python
-code.  This is the big difference between Scratch and most text-based
-programming languages: you must update the game by one animation step and then
-return.  Returning gives Pygame Zero a chance to do things like processing
-input or redrawing the screen. Loop forever and the game would just sit there,
-so any loops need to finish quickly.
+Największa różnica jest taka, że w kodzie w Pythonie nie ma żadnej pętli typu „zawsze”.
+To jest duża różnica między Scratchem a większością tekstowych języków programowania:
+musisz zaktualizować grę o jeden krok animacji i wyjść z funkcji. Wyjście z funkcji
+daje Pygame Zero szansę na zajęcie się rzeczami takimi jak obsługa wejść albo rysowanie
+zawartości ekranu. Wieczna pętla sprawiłaby, że gra po prostu by się zatrzymała,
+więc wszelkie pętle muszą się kończyć szybko.
 
-Pygame Zero calls an ``update()`` function when it wants you to update the
-animation by one step, so we just need to add a call to ``update_pipes()``::
+Pygame Zero wywołuje funkcję ``update()`` kiedy przychodzi czas zaktualizować animację
+o jeden krok, musimy więc tylko dodać wywołanie funkcji ``update_pipes()``::
 
    def update():
       update_pipes()
 
 
-The Bird
---------
+Ptak
+----
 
-The patterns described above for how Scratch logic translates to Python code
-also apply for the bird logic. Let's look at the Python code first this time.
+Wyżej opisany schemat tego jak logika Scratcha przekłada się na kod Pythona
+pasuje też do logiki ptaka. Tym razem najpierw obejrzyjmy kod w Pythonie.
 
-The code to update the bird is organised into a function called
-``update_bird()``. The first thing this function contains is some code to move
-the bird according to gravity::
+Kod aktualizujący ptaka jest zorganizowany w funkcji o nazwie
+``update_bird()``. Pierwsza rzecz w tej funkcji to kod przesuwający ptaka
+zgodnie z prawem grawitacji::
 
    GRAVITY = 0.3
 
-   # Initial state of the bird
+   # Początkowy stan ptaka
    bird.dead = False
    bird.vy = 0
 
@@ -134,26 +131,27 @@ the bird according to gravity::
        bird.y += bird.vy
        bird.x = 75
 
-This is a simple gravity formula:
+To bardzo prosty wzór na grawitację:
 
-* Gravity means constant **acceleration downwards**.
-* Acceleration is change in **velocity**.
-* Velocity is change in **position**.
+* Grawitacja oznacza stałe **przyspieszenie w dół**.
+* Przyspieszenie to zmiana **prędkości**.
+* Prędkość to zmiana **pozycji**.
 
-To represent this we need to track a variable ``bird.vy``, which is the bird's
-velocity in the ``y`` direction. This is a new variable that we are defining,
-not something that Pygame Zero provides for us.
+Aby to przedstawić, potrzebujemy śledzić zmienną ``bird.vy``, która oznacza prędkość
+ptaka w kierunku ``y`` (``v`` to oznaczenie prędkości, ``y`` to kierunek pionowy).
+To jest nowa zmienna, którą sami definiujemy, a nie coś
+dostarczonego nam przez Pygame Zero.
 
-* Gravity means constant acceleration downwards: ``GRAVITY`` is greater than 0.
-* Acceleration is change in velocity: ``GRAVITY`` gets added to ``bird.vy``
-* Velocity is change in position: ``bird.vy`` gets added to ``bird.y``
+* Grawitacja oznacza stałe przyspieszenie w dół: stała ``GRAVITY`` jest większa niż 0.
+* Przyspieszenie to zmiana prędkości: stałą ``GRAVITY`` dodajemy do ``bird.vy``
+* Prędkość to zmiana pozycji: zmienną ``bird.vy`` dodajemy do ``bird.y``
 
-Note that the bird does not move horizontally! Its ``x`` position stays at
-75 through the whole game. We simulate movement by moving the pipes towards
-it. This looks as though it's a moving camera following the bird. So there's
-no need for a ``vx`` variable in this game.
+Zwróć uwagę, że ptak nie porusza się w poziomie! Jego pozycja ``x`` ma wartość
+75 w ciągu całej gry. Symulujemy ruch przesuwając rury w kierunku ptaka.
+Wygląda to, jak gdyby kamera poruszała się razem z ptakiem. Dlatego nie potrzebujemy
+zmiennej ``vx`` w tej grze.
 
-The next section makes the bird flap its wings::
+Następna sekcja sprawia, że ptak macha skrzydłami::
 
        if not bird.dead:
            if bird.vy < -3:
@@ -161,22 +159,22 @@ The next section makes the bird flap its wings::
            else:
                bird.image = 'bird1'
 
-This checks if the bird is moving upwards or downwards. We show the ``bird2``
-image if it is moving upwards fast and the ``bird1`` image otherwise. (-3 was
-picked by trial and error to make this look convincing).
+Sprawdzamy tutaj, czy ptak porusza się w górę, czy w dół. Pokazujemy obraz ``bird2``,
+gdy porusza się w górę, a obraz ``bird1`` w przeciwnym przypadku (wartość -3 została
+dobrana metodą prób i błędów, by uzyskać przekonujący wygląd).
 
-The next section checks if the bird has collided with a wall::
+Kolejna sekcja sprawdza, czy ptak zderzył się ze ścianą::
 
        if bird.colliderect(pipe_top) or bird.colliderect(pipe_bottom):
            bird.dead = True
            bird.image = 'birddead'
 
-If so we set ``bird.dead`` to ``True``. This is a **boolean value** meaning it
-is either ``True`` or ``False``. We can use this to easily check if the bird is
-alive. If it isn't alive it won't respond to player input.
+Jeśli tak, to ustawiamy ``bird.dead`` na ``True``. To jest **wartość logiczna**, czyli
+ma wartość albo ``True`` (prawda) albo ``False`` (fałsz). Dzięki niej możemy łatwo sprawdzać,
+czy ptak jest żywy. Jeśli nie jest żywy, nie będzie reagował na sterowanie nim przez użytkownika.
 
-And the final section checks if the bird has fallen off the bottom (or the top)
-of the game screen. If so it resets the bird::
+Ostatnia sekcja sprawda, czy ptak wypadł poza dolną (albo górną) krawędź ekranu gry.
+Gdy tak się stanie, ptak jest resetowany::
 
        if not 0 < bird.y < 720:
            bird.y = 200
@@ -184,21 +182,20 @@ of the game screen. If so it resets the bird::
            bird.vy = 0
            reset_pipes()
 
-What's ``reset_pipes()`` doing there? Because I'd organised my pipes code to
-be a separate function, I can just call it whenever I want to reset my walls.
-In this case it makes it a better game because it gives the player a chance to
-react when the bird moves back to its start position.
+Co tu robi ``reset_pipes()``? Ponieważ mój kod dotyczący rur znajduje się w osobnej funkcji,
+mogę wywołać ją zawsze, gdy chcę zresetować moje ściany.
+W tym przypadku poprawia to grę, bo daje graczowi szansę na reakcję, gdy ptak powróci do swojej
+pozycji startowej.
 
-Again, this needs to be called every frame, so we add it to ``update()``::
+I znowu, tę funkcję trzeba wywoływać przed każdą klatką, więc dodajemy ją do ``update()``::
 
    def update():
       update_pipes()
       update_bird()
 
-The final part of the bird logic is that it has to respond to player control.
-When we press a key, the bird flaps upwards. Pygame Zero will call an
-``on_key_down()`` function - if you've defined one - whenever a key is
-pressed::
+Ostatnia część logiki ptaka to reagowanie na sterowanie nim przez gracza.
+Kiedy naciskamy klawisz, ptak odpycha się w górę. Pygame Zero wywoła funkcję
+``on_key_down()`` — jeśli taką zdefiniujesz — zawsze gdy zostanie wciścięty klawisz::
 
    FLAP_VELOCITY = -6.5
 
@@ -206,67 +203,65 @@ pressed::
        if not bird.dead:
            bird.vy = FLAP_VELOCITY
 
-Here, if the bird is not dead, we set its ``vy`` to a negative number: in
-Pygame Zero this means it starts moving upwards.
+Tutaj, jeśli ptak nie jest martwy, ustawiamy jego ``vy`` na ujemną wartość:
+w Pygame Zero oznacza to ruch w górę.
 
-You should be able to find a lot of parallels between the Python code and this
-Scratch code:
+Powinno Ci być łatwo znaleźć dużo podobieństw między kodem w Pythonie a tym
+kodem w Scratchu:
 
 .. image:: _static/scratch/flappybird-bird-start.png
 .. image:: _static/scratch/flappybird-bird-space.png
 
 
-The biggest differences between Scratch and Pygame Zero are these:
+Największe różnice między Scratchem a Pygame Zero są takie:
 
-* You cannot loop forever in Pygame Zero - just update for one frame and then
-  return.
-* The coordinates are different. In Pygame Zero, the top left of the screen is
-  ``x = 0, y = 0``. The ``x`` direction goes from left to right as before, but
-  ``y`` goes down the screen! This is why ``GRAVITY`` is a positive number and
-  ``FLAP_VELOCITY`` is a negative number in Python.
-* ``bird.dead`` is a bool, so I can write code like ``if not bird.dead``
-  instead of ``dead = 0`` as in Scratch.
+* W Pygame Zero nie możesz tworzyć wiecznych pętli — uaktualniasz tylko stan
+  dla kolejnej klatki i kończysz funkcję.
+* Współrzędne są inne. W Pygame Zero, lewy górny róg ekranu to
+  ``x = 0, y = 0``. Kierunek ``x`` idzie od lewej do prawej jak wcześniej, ale
+  ``y`` idzie w dół ekranu! To dlatego w Pythonie ``GRAVITY`` jest liczbą dodatnią, a
+  ``FLAP_VELOCITY`` — ujemną.
+* ``bird.dead`` jest wartością logiczną, dlatego mogę pisać np. ``if not bird.dead``
+  zamiast ``dead = 0`` jak w Scratchu.
 
 
-Summary
--------
+Podsumowanie
+------------
 
-Many of the concepts available in Scratch can be translated directly into
-Pygame Zero.
+Wiele pojęć dostępnych w Scratchu da się przełożyć bezpośrednio do Pygame Zero.
 
-Here are some comparisons:
+Tutaj jest kilka porównań:
 
-+----------------------------+--------------------------------------------+
-| In Scratch                 | In Pygame Zero                             |
-+============================+============================================+
-| ``change y by 1`` (up)     | ``bird.y -= 1``                            |
-+----------------------------+--------------------------------------------+
-| ``change y by -1`` (down)  | ``bird.y += 1``                            |
-+----------------------------+--------------------------------------------+
-| ``set costume to <name>``  | ``bird.image = 'name'``                    |
-+----------------------------+--------------------------------------------+
-| ``if dead = 0``            | ``if not bird.dead:``                      |
-+----------------------------+--------------------------------------------+
-| ``set dead to 0``          | ``bird.dead = False``                      |
-+----------------------------+--------------------------------------------+
-| ``if touching Top?``       | ``if bird.colliderect(pipe_top)``          |
-+----------------------------+--------------------------------------------+
-| ``When Flag clicked``...   | Put code into the ``update()`` function.   |
-| ``forever``                |                                            |
-+----------------------------+--------------------------------------------+
-| ``When [any] key pressed`` | ``def on_key_down():``                     |
-+----------------------------+--------------------------------------------+
-| ``pick random a to b``     | ``import random`` to load the ``random``   |
-|                            | module, then ``random.randint(a, b)``      |
-+----------------------------+--------------------------------------------+
-| (0, 0) is the centre of    | (0, 0) is the top-left of the window       |
-| the stage                  |                                            |
-+----------------------------+--------------------------------------------+
++----------------------------+------------------------------------------------+
+| W Scratchu                 | W Pygame Zero                                  |
++============================+================================================+
+| ``change y by 1`` (w górę) | ``bird.y -= 1``                                |
++----------------------------+------------------------------------------------+
+| ``change y by -1`` (w dół) | ``bird.y += 1``                                |
++----------------------------+------------------------------------------------+
+| ``set costume to <name>``  | ``bird.image = 'name'``                        |
++----------------------------+------------------------------------------------+
+| ``if dead = 0``            | ``if not bird.dead:``                          |
++----------------------------+------------------------------------------------+
+| ``set dead to 0``          | ``bird.dead = False``                          |
++----------------------------+------------------------------------------------+
+| ``if touching Top?``       | ``if bird.colliderect(pipe_top)``              |
++----------------------------+------------------------------------------------+
+| ``When Flag clicked``...   | Umieść kod w funkcji ``update()``.             |
+| ``forever``                |                                                |
++----------------------------+------------------------------------------------+
+| ``When [any] key pressed`` | ``def on_key_down():``                         |
++----------------------------+------------------------------------------------+
+| ``pick random a to b``     | ``import random`` by załadować moduł           |
+|                            | ``random``, następnie ``random.randint(a, b)`` |
++----------------------------+------------------------------------------------+
+| (0, 0) jest w środku sceny | (0, 0) jest w lewym górnym roku okna           |
++----------------------------+------------------------------------------------+
 
-In some cases, the code is simpler in Python because it can be
-organised in a way that helps it make sense when you read it.
+Kod w Pythonie bywa czasem prostszy, bo może być zorganizowany
+w sposób pomagający go zrozumieć podczas czytaniu.
 
-The power of Pygame Zero's actors also makes the coordinate manipulation
-easier. We used the ``anchor`` position to position the pipes, and we were able
-to see if a pipe was off-screen by checking ``pipe_top.right < 0`` rather than
-``if x position < -240``.
+Dzięki mocy aktorów Pygame Zero także używanie współrzędnych jest łatwiejsze.
+Użyliśmy ustawienia ``anchor``, by ustawiać pozycję rur, i mogliśmy
+zobaczyć czy rura jest poza ekranem, sprawdzając czy ``pipe_top.right < 0``,
+a nie ``if x position < -240``.
